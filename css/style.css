@@ -1,0 +1,11 @@
+body{
+    background-color: #FFAEBC;
+    color:#000C66;
+}
+li{
+    font: 28px;
+    font-weight: bold;
+}
+ul,h2{
+    margin-left: 20px;
+}
