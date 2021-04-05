@@ -1,5 +1,4 @@
 'use strict';
-
 let hours = ['6 am', '7 am', '8 am', '9 am', '10 am', '11 am', '12 pm', '1 pm', '2 pm', '3 pm', '4 pm', '5 pm', '6 pm', '7 pm'];
 let stands = ['Seatle', 'Tokyo', 'Dubai', 'Paris', 'Lima'];
 let bigTotals = 0;
@@ -77,40 +76,33 @@ CookieShop.prototype.renderContents = function () {
     }
   }
 };
-let  Objarr = [];
-let ObjectTotalCol = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+let  objArr = [];
+let objectTotalCol = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 (function makeObject() {
   for (let i = 0; i < stands.length; i++) {
-    Objarr.push(new CookieShop(stands[i], minCustoms[i], maxCustoms[i], avgSalePerCustomer[i]));
-    Objarr[i].renderContents();
+    objArr.push(new CookieShop(stands[i], minCustoms[i], maxCustoms[i], avgSalePerCustomer[i]));
+    objArr[i].renderContents();
   }
 
-  for (let index = 0; index < Objarr.length; index++) {
-
-    for (let index2 = 0; index2 < (Objarr[index].cookiesSoldPerHour).length; index2++) {
-
-      ObjectTotalCol[index2] += Objarr[index].cookiesSoldPerHour[index2][1];
-
+  for (let i = 0; i < objArr.length; i++) {
+    for (let j = 0; j < (objArr[i].cookiesSoldPerHour).length; j++) {
+      objectTotalCol[j] += objArr[i].cookiesSoldPerHour[j][1];
     }
-
   }
 })();
 
 (function footer() {
-  let tr = document.createElement('tr');
-  let totaltd = document.createElement('td');
-  let tttt = document.createElement('td');
-  tr.appendChild(totaltd);
-  totaltd.textContent = 'total';
-  dataTable.appendChild(tr);
-  for (let i = 0; i < ObjectTotalCol.length; i++) {
-    let td = document.createElement('td');
-    tr.appendChild(td);
-    td.textContent = ObjectTotalCol[i];
-
-
+  let footerRow = document.createElement('tr');
+  let totalCell = document.createElement('th');
+  let  grandTotal= document.createElement('th');
+  footerRow.appendChild(totalCell);
+  totalCell.textContent = 'Total';
+  dataTable.appendChild(footerRow);
+  for (let i = 0; i < objectTotalCol.length; i++) {
+    let totalData = document.createElement('th');
+    footerRow.appendChild(totalData);
+    totalData.textContent = objectTotalCol[i];
   }
-  tr.appendChild(tttt);
-  tttt.textContent = bigTotals;
-
+  footerRow.appendChild(grandTotal);
+  grandTotal.textContent = bigTotals;
 })();
