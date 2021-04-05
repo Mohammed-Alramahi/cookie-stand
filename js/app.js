@@ -1,99 +1,116 @@
 'use strict';
+
 let hours = ['6 am', '7 am', '8 am', '9 am', '10 am', '11 am', '12 pm', '1 pm', '2 pm', '3 pm', '4 pm', '5 pm', '6 pm', '7 pm'];
-let Seatle = null, Tokyo = null, Dubai = null, Paris = null, Lima = null;
-let seatlEstimatedSales = [], tokyoEstimatedSales = [], dubaiEstimatedSales = [], parisEstimatedSales = [], limaEstimatedSales = [];
-for (let i = 0; i < hours.length; i++) {
-  Seatle = {
-    name: 'Seatle',
-    minCustomers: 23,
-    maxCustomers: 65,
-    averageSale: 6.3,
-    cookiesSold: function () {
-      return Math.floor(randomNumber(this.minCustomers, this.maxCustomers) * this.averageSale);
+let stands = ['Seatle', 'Tokyo', 'Dubai', 'Paris', 'Lima'];
+let bigTotals = 0;
+let minCustoms = [23, 3, 11, 20, 2], maxCustoms = [65, 24, 38, 38, 16], avgSalePerCustomer = [6.3, 1.2, 3.7, 2.3, 4.6];
+let mainDiv = document.getElementById('sales-main');
+let dataTable = document.createElement('table');
+(function header() {
+  let trHead = document.createElement('tr');
+  let emptyCell = document.createElement('th');
+  trHead.appendChild(emptyCell);
+  mainDiv.appendChild(dataTable);
+  dataTable.appendChild(trHead);
+  for (let i = 0; i <= hours.length; i++) {
+    if (i !== hours.length) {
+      let tableHead = document.createElement('th');
+      trHead.appendChild(tableHead);
+      tableHead.textContent = hours[i];
     }
-  };
-  Tokyo = {
-    name: 'Tokyo',
-    minCustomers: 3,
-    maxCustomers: 24,
-    averageSale: 1.2,
-    cookiesSold: function () {
-      return Math.floor(randomNumber(this.minCustomers, this.maxCustomers) * this.averageSale);
+    else {
+      let tableHead = document.createElement('th');
+      trHead.appendChild(tableHead);
+      tableHead.textContent = 'Total';
     }
-  };
-  Dubai = {
-    name: 'Dubai',
-    minCustomers: 11,
-    maxCustomers: 38,
-    averageSale: 3.7,
-    cookiesSold: function () {
-      return Math.floor(randomNumber(this.minCustomers, this.maxCustomers) * this.averageSale);
-    }
-  };
-  Paris = {
-    name: 'Paris',
-    minCustomers: 20,
-    maxCustomers: 38,
-    averageSale: 2.3,
-    cookiesSold: function () {
-      return Math.floor(randomNumber(this.minCustomers, this.maxCustomers) * this.averageSale);
-    }
-  };
-  Lima = {
-    name: 'Lima',
-    minCustomers: 20,
-    maxCustomers: 38,
-    averageSale: 2.3,
-    cookiesSold: function () {
-      return Math.floor(randomNumber(this.minCustomers, this.maxCustomers) * this.averageSale);
-    }
-  };
-
-  seatlEstimatedSales[i] = [hours[i], Seatle.cookiesSold()];
-  tokyoEstimatedSales[i] = [hours[i], Tokyo.cookiesSold()];
-  dubaiEstimatedSales[i] = [hours[i], Dubai.cookiesSold()];
-  parisEstimatedSales[i] = [hours[i], Paris.cookiesSold()];
-  limaEstimatedSales[i] = [hours[i], Lima.cookiesSold()];
-}
-console.log(seatlEstimatedSales);
-function randomNumber(min, max) {
-  return Math.floor(Math.random() * (max - min) + min);
-}
-
-function renderContent(name, list, total) {
-  let mainDiv = document.getElementById('sales-main');
-  let unorderedList = document.createElement('ul');
-
-  let listHeader = document.createElement('h2');
-  mainDiv.appendChild(listHeader);
-  listHeader.textContent = name;
-  mainDiv.appendChild(unorderedList);
-  for (let i = 0; i < hours.length; i++) {
-    let listItems = document.createElement('li');
-    unorderedList.appendChild(listItems);
-    listItems.textContent = hours[i] + ': ' + list[i][1];
   }
-  let toatalListItem = document.createElement('li');
-  unorderedList.appendChild(toatalListItem);
-  toatalListItem.textContent = 'Total: ' + total;
+})();
 
+function CookieShop(standName, minCustomers, maxCustomers, averageSale) {
+  this.standName = standName;
+  this.minCustomers = minCustomers;
+  this.maxCustomers = maxCustomers;
+  this.averageSale = averageSale;
+  this.randomizedNumber = 0;
+  this.total = 0;
+  this.cookiesSoldPerHour = [];
 
 }
+CookieShop.prototype.randomNumber = function () {
+  return Math.floor(Math.floor(Math.random() *
+    (this.maxCustomers - this.minCustomers) + this.minCustomers) * this.averageSale);
+};
 
-
-renderContent(Seatle.name, seatlEstimatedSales, total(seatlEstimatedSales));
-renderContent(Tokyo.name, tokyoEstimatedSales, total(tokyoEstimatedSales));
-renderContent(Dubai.name, dubaiEstimatedSales, total(dubaiEstimatedSales));
-renderContent(Paris.name, parisEstimatedSales, total(parisEstimatedSales));
-renderContent(Lima.name, limaEstimatedSales, total(limaEstimatedSales));
-
-
-
-function total(salesTotal) {
-  let total = 0;
+CookieShop.prototype.calcCookies = function () {
   for (let i = 0; i < hours.length; i++) {
-    total += salesTotal[i][1];
+    this.randomizedNumber = this.randomNumber();
+    this.cookiesSoldPerHour[i] = [hours[i], this.randomizedNumber];
+  }
+
+  this.calcTotal();
+  bigTotals += this.total;
+};
+
+CookieShop.prototype.calcTotal = function () {
+  for (let i = 0; i < hours.length; i++) {
+    this.total += this.cookiesSoldPerHour[i][1];
+  }
+};
+
+CookieShop.prototype.renderContents = function () {
+  this.calcCookies();
+  let tableRow = document.createElement('tr');
+  let locationCell = document.createElement('td');
+  tableRow.appendChild(locationCell);
+  locationCell.textContent = this.standName;
+  dataTable.appendChild(tableRow);
+  for (let i = 0; i <= hours.length; i++) {
+    if (i !== hours.length) {
+      let rowCell = document.createElement('td');
+      tableRow.appendChild(rowCell);
+      rowCell.textContent = this.cookiesSoldPerHour[i][1];
+    }
+    else {
+      let rowCell = document.createElement('td');
+      tableRow.appendChild(rowCell);
+      rowCell.textContent = this.total;
+    }
+  }
+};
+let  Objarr = [];
+let ObjectTotalCol = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+(function makeObject() {
+  for (let i = 0; i < stands.length; i++) {
+    Objarr.push(new CookieShop(stands[i], minCustoms[i], maxCustoms[i], avgSalePerCustomer[i]));
+    Objarr[i].renderContents();
+  }
+
+  for (let index = 0; index < Objarr.length; index++) {
+
+    for (let index2 = 0; index2 < (Objarr[index].cookiesSoldPerHour).length; index2++) {
+
+      ObjectTotalCol[index2] += Objarr[index].cookiesSoldPerHour[index2][1];
+
+    }
 
   }
-  return total;
-}
+})();
+
+(function footer() {
+  let tr = document.createElement('tr');
+  let totaltd = document.createElement('td');
+  let tttt = document.createElement('td');
+  tr.appendChild(totaltd);
+  totaltd.textContent = 'total';
+  dataTable.appendChild(tr);
+  for (let i = 0; i < ObjectTotalCol.length; i++) {
+    let td = document.createElement('td');
+    tr.appendChild(td);
+    td.textContent = ObjectTotalCol[i];
+
+
+  }
+  tr.appendChild(tttt);
+  tttt.textContent = bigTotals;
+
+})();
