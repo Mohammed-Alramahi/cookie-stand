@@ -7,8 +7,9 @@ let mainDiv = document.getElementById('sales-main');
 let dataTable = document.createElement('table');
 (function header() {
   let trHead = document.createElement('tr');
-  let emptyCell = document.createElement('th');
-  trHead.appendChild(emptyCell);
+  let nameCell = document.createElement('th');
+  trHead.appendChild(nameCell);
+  nameCell.textContent='Name';
   mainDiv.appendChild(dataTable);
   dataTable.appendChild(trHead);
   for (let i = 0; i <= hours.length; i++) {
@@ -106,3 +107,4 @@ let objectTotalCol = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   footerRow.appendChild(grandTotal);
   grandTotal.textContent = bigTotals;
 })();
+
