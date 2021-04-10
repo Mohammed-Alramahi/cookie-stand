@@ -22,9 +22,9 @@ body {
 table, th, td {
     border: 1px solid black;
     margin: auto;
-    font-size: 24px;
+    font-size: 28px;
     padding:10px;
-    font-weight: bold;
+    font-family: Arial, Helvetica;
   }
 header{
     margin-top: 1px;
@@ -57,8 +57,10 @@ header ul li {
 
 header ul li a {
     text-decoration: none;
-    font-size: 25px;
+    font-size: 30px;
     color: #03071e;
+    font-family: 'Raleway', sans-serif;
+    font-weight: bold;
 }
 
 #logo {
@@ -80,8 +82,14 @@ header ul li a {
 #hero h1 {
     font-size: 50px;
     margin-bottom: 20px;
+    font-family: 'Raleway', sans-serif;
+    font-weight: bold;
 }
-
+#hours{
+    font-size: 30px;
+    margin-bottom: 10px;
+    
+}
 #hero-text {
     margin-left: 50px;
     font-size: 20px;
@@ -99,6 +107,9 @@ header ul li a {
     font-size: 36px;
     font-weight: bold;
     margin-bottom: 10px;
+    font-family: 'Raleway', sans-serif;
+    
+
 }
 
 .product {
@@ -126,6 +137,8 @@ header ul li a {
 .highlight {
     text-align: center;
     font-size: 25px;
+    font-family: 'Raleway', sans-serif;
+    font-weight: bold;
 }
 
 .product p {
@@ -220,4 +233,8 @@ input{
 #submit:focus{
     background-color: rgba(240, 240,240, 0.7);
     font-weight: bold;
+}
+
+p,address{
+    font-family: Georgia, 'Times New Roman', Times, serif;
 }
